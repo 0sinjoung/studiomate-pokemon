@@ -1,32 +1,52 @@
-import React from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import React, { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import PokemonListItem from "./PokemonListItem";
-// import { getTodos, postTodo } from '../my-api'
 
 const PokemonListPage = () => {
-  const getPokemonLists = async () => {
-    return fetch("https://pokeapi.co/api/v2/pokemon")
-      .then((res) => res.json())
-      .then((data) => data.results);
-  };
-  // Access the client
-  const queryClient = useQueryClient();
+  const [pokemonLists, setPokemonLists] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const LIMIT = 20;
 
-  // Queries
-  const {
-    isLoading,
-    error,
-    data: pokemons,
-  } = useQuery("pokemons", getPokemonLists);
+  const getPokemonLists = async (offset, limit) => {
+    return fetch(
+      `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setPokemonLists([...pokemonLists, ...data.results]);
+      });
+  };
+
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setOffset(offset + LIMIT);
+    }
+  };
+
+  useEffect(() => {
+    getPokemonLists(offset, LIMIT);
+  }, [offset]);
+
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
-    <div className="pokemon_list_page">
+    <div className="pokemon_list_page" to="target">
       <h1>포켓몬 리스트 페이지</h1>
-      {isLoading ? (
+      {pokemonLists === null ? (
         <p>Loading...</p>
       ) : (
         <ul>
-          {pokemons.map((pokemon) => (
+          {pokemonLists.map((pokemon) => (
             <PokemonListItem
               key={pokemon.name}
               name={pokemon.name}
@@ -35,6 +55,7 @@ const PokemonListPage = () => {
           ))}
         </ul>
       )}
+      <button onClick={() => setOffset(offset + LIMIT)}>more</button>
     </div>
   );
 };
