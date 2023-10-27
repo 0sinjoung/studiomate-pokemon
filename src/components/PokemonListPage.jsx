@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import PokemonListItem from "./PokemonListItem";
 // import { getTodos, postTodo } from '../my-api'
 
 const PokemonListPage = () => {
@@ -26,15 +27,11 @@ const PokemonListPage = () => {
       ) : (
         <ul>
           {pokemons.map((pokemon) => (
-            <li key={pokemon.name}>
-              {pokemon.name}
-              <img
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                  pokemon.url.split("/")[6]
-                }.png`}
-                alt={pokemon.name}
-              />
-            </li>
+            <PokemonListItem
+              key={pokemon.name}
+              name={pokemon.name}
+              url={pokemon.url}
+            />
           ))}
         </ul>
       )}

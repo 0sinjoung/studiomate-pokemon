@@ -1,0 +1,15 @@
+.pokemon_list_item {
+  width: 300px;
+  height: 100px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+}
+.pokemon_list_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+.pokemon_number {
+  margin-bottom: 4px;
+}
