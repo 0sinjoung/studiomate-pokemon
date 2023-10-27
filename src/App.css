@@ -1,5 +1,9 @@
-.pokemon_list_item {
+.pokemon_lists {
   width: 300px;
+  border-top: 1px solid #eeeeee;
+}
+.pokemon_list_item {
+  width: 100%;
   height: 100px;
   background-color: #ffffff;
   border-bottom: 1px solid #eeeeee;
@@ -12,4 +16,21 @@
 }
 .pokemon_number {
   margin-bottom: 4px;
+}
+.text_field_box {
+  width: 300px;
+  margin: 20px 0;
+  display: flex;
+  gap: 4px;
+}
+.pokemom_search_text_field {
+  width: 85%;
+  height: 32px;
+  padding: 0 4px;
+}
+.pokemom_search_text_field::placeholder {
+  font-size: 12px;
+}
+.pokemon_search_button {
+  width: 15%;
 }
