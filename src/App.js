@@ -1,20 +1,9 @@
 import "./App.css";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import PokemonListPage from "./components/PokemonListPage";
+import { RecoilEnv, RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
+import PageProvider from "./PageProvider";
 
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const queryClient = new QueryClient();
 
 function App() {
@@ -22,7 +11,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <div className="App">
-          <PokemonListPage />
+          <PageProvider />
         </div>
       </RecoilRoot>
     </QueryClientProvider>

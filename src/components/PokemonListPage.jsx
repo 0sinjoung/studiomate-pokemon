@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { v1 } from "uuid";
 import PokemonListItem from "./PokemonListItem";
 import "../App.css";
 
@@ -11,12 +11,16 @@ const PokemonListPage = () => {
 
   // Query
   const getPokemonLists = async (offset, limit) => {
+    setIsError(false);
     return fetch(
       `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
     )
       .then((res) => res.json())
       .then((data) => {
         setPokemonLists([...pokemonLists, ...data.results]);
+      })
+      .catch(() => {
+        setIsError(true);
       });
   };
   const getPokemonItem = async (text) => {
@@ -72,8 +76,7 @@ const PokemonListPage = () => {
   });
 
   return (
-    <div className="pokemon_list_page" to="target">
-      <h1>포켓몬 리스트 페이지</h1>
+    <div className="pokemon_list_page">
       <div className="text_field_box">
         <input
           type="text"
@@ -101,11 +104,7 @@ const PokemonListPage = () => {
       ) : (
         <ul className="pokemon_lists">
           {pokemonLists.map((pokemon) => (
-            <PokemonListItem
-              key={pokemon.name}
-              name={pokemon.name}
-              url={pokemon.url}
-            />
+            <PokemonListItem key={v1()} name={pokemon.name} url={pokemon.url} />
           ))}
         </ul>
       )}

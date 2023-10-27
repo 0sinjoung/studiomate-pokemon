@@ -34,3 +34,6 @@
 .pokemon_search_button {
   width: 15%;
 }
+.pokemon_type {
+  margin-right: 8px;
+}
